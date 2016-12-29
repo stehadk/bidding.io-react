@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
+import { Grid } from 'react-bootstrap';
+import AuctionPanel from '../components/AuctionPanel';
 
 export default class Frontpage extends Component {
+
     render() {
         return (
-            <h1>This is the front page!</h1>
+            <Grid>
+                <div className="page-header">
+                    <h1>Welcome to bidding.io</h1>
+                    <p className="lead">Basic auction system using REST and WebSockets to update data and React as web-app framework.</p>
+                </div>
+                <AuctionPanel/>
+            </Grid>
         )
     }
 }
