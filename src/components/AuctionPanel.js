@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Panel, Table } from 'react-bootstrap';
 import { Link } from 'react-router';
 
-const URL = "http://localhost:9998";
+const URL = "http://"+window.location.hostname+":9998";
 const RELOAD_INTERVAL = 2000; // ms
 
 export default class AuctionPanel extends Component {
@@ -51,6 +51,11 @@ export default class AuctionPanel extends Component {
         clearInterval(this.timerId);
     }
 
+    parseDate = function(dateString) {
+        var date = new Date(dateString);
+        return date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes();
+    }
+
     render() {
         return (
             <Panel header="Current active auctions">
@@ -75,7 +80,7 @@ export default class AuctionPanel extends Component {
                                     <td>{auction.id}</td>
                                     <td><Link to={"auction/" + auction.id}>{auction.name}</Link></td>
                                     <td>{auction.price}</td>
-                                    <td>{auction.endDate}</td>
+                                    <td>{this.parseDate(auction.endDate)}</td>
                                 </tr>
                             )
                         })}

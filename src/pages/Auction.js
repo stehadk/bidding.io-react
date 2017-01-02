@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Grid, Col, PageHeader, Panel, FormGroup, InputGroup, FormControl, Button } from 'react-bootstrap';
 import io from 'socket.io-client';
 
-const PATH = "localhost:9998";
+const PATH = window.location.hostname+":9998";
 
 export default class Auction extends Component {
 
