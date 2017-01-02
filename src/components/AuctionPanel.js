@@ -10,15 +10,16 @@ export default class AuctionPanel extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            auctions: []
+            auctions: [],
+            error: false
         }
     }
 
     get(url, callback) {
         var xmlHttp = new XMLHttpRequest();
         xmlHttp.onreadystatechange = function () {
-            if (xmlHttp.readyState === 4 && xmlHttp.status === 200)
-                callback(xmlHttp.responseText);
+            if (xmlHttp.readyState === 4)
+                callback(xmlHttp.status, xmlHttp.responseText);
         }
         xmlHttp.open("GET", url, true); // true for asynchronous 
         xmlHttp.send(null);
@@ -27,10 +28,16 @@ export default class AuctionPanel extends Component {
     reloadAuctions() {
         console.log("Reloading auctions...");
         var thisUrl = URL + "/auctions";
-        this.get(thisUrl, (content) => {
-            this.setState({
-                auctions: JSON.parse(content)
-            })
+        this.get(thisUrl, (status, content) => {
+            if (status === 200) {
+                this.setState({
+                    auctions: JSON.parse(content)
+                })
+            } else {
+                clearInterval(this.timerId);
+                console.error("REST return code != 200. Got: "+status);
+                this.setState({ error: true });
+            }
         })
 
     }
@@ -57,6 +64,11 @@ export default class AuctionPanel extends Component {
                         </tr>
                     </thead>
                     <tbody>
+                        {this.state.error && (
+                            <tr className="danger">
+                                <td colSpan="4" style={{ textAlign: "center" }}>Something went wrong. Please try again later. See the console for more information.</td>
+                            </tr>
+                        )}
                         {this.state.auctions.map((auction) => {
                             return (
                                 <tr key={auction.id}>
