@@ -8,7 +8,7 @@ export default class Navigation extends Component {
             <Navbar>
                 <Navbar.Header>
                     <Navbar.Brand>
-                        <Link to="/">Bidding.io</Link>
+                        <Link to="/">Bidding.io - React</Link>
                     </Navbar.Brand>
                 </Navbar.Header>
             </Navbar>
